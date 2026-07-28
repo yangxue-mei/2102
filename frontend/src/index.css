@@ -1,0 +1,342 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg:           #f6f7fb;
+  --color-surface:      #ffffff;
+  --color-surface-alt:  #f1f3f8;
+  --color-ink:          #1f2330;
+  --color-muted:        #6b7280;
+  --color-line:         #e5e7eb;
+  --color-primary:      #4338ca;
+  --color-primary-fg:   #ffffff;
+  --color-accent:       #f59e0b;
+  --color-success:      #16a34a;
+  --color-warning:      #f59e0b;
+  --color-danger:       #dc2626;
+
+  --font-display: 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif;
+  --font-body:    'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+}
+
+:root[data-theme="dark"] {
+  --color-bg:          #0b0d12;
+  --color-surface:     #11141b;
+  --color-surface-alt: #161a23;
+  --color-ink:         #f3f4f6;
+  --color-muted:       #9ca3af;
+  --color-line:        #1f2330;
+  --color-primary:     #818cf8;
+  --color-primary-fg:  #0b0d12;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg:          #0b0d12;
+    --color-surface:     #11141b;
+    --color-surface-alt: #161a23;
+    --color-ink:         #f3f4f6;
+    --color-muted:       #9ca3af;
+    --color-line:        #1f2330;
+    --color-primary:     #818cf8;
+    --color-primary-fg:  #0b0d12;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+/* 面板 */
+.panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+/* 标签栏 */
+.tab-btn {
+  padding: 0.55rem 1.1rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+.tab-btn:hover { color: var(--color-ink); }
+.tab-btn.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* 计算屏幕 */
+.calc-screen {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.calc-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  color: var(--color-ink);
+}
+.calc-result {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  color: var(--color-primary);
+  min-height: 1.4rem;
+  word-break: break-all;
+}
+.calc-result.text-danger { color: var(--color-danger); }
+
+/* 按键盘 */
+.calc-pad {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.4rem;
+}
+@media (max-width: 640px) {
+  .calc-pad { grid-template-columns: repeat(5, 1fr); gap: 0.3rem; }
+}
+.calc-key {
+  padding: 0.7rem 0;
+  font-size: 0.95rem;
+  font-family: var(--font-mono);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background .12s, transform .05s;
+}
+.calc-key:hover { background: var(--color-surface-alt); }
+.calc-key:active { transform: translateY(1px); }
+.calc-key.key-disabled {
+  background: var(--color-surface-alt);
+  color: var(--color-line);
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  border: 1px solid var(--color-primary);
+}
+.btn-primary:hover { filter: brightness(1.08); background: var(--color-primary); }
+.btn-warn {
+  background: var(--color-warning);
+  color: #fff;
+  border: 1px solid var(--color-warning);
+}
+.btn-danger {
+  background: var(--color-danger);
+  color: #fff;
+  border: 1px solid var(--color-danger);
+}
+
+/* 分段按钮 */
+.seg-btn {
+  padding: 0.3rem 0.9rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.seg-btn.active {
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  border-color: var(--color-primary);
+}
+
+/* 方程输出 */
+.eq-out {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1rem;
+  min-height: 3rem;
+}
+.eq-detail {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--color-ink);
+  white-space: pre-wrap;
+  margin-top: 0.4rem;
+  line-height: 1.5;
+}
+.chip {
+  padding: 0.25rem 0.7rem;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.chip:hover { background: var(--color-surface-alt); }
+
+/* 进制显示 */
+.base-display {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.4rem;
+}
+.base-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+}
+.base-row.row-active {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
+}
+.base-tag {
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  font-weight: 600;
+  min-width: 2.5rem;
+}
+.base-val {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--color-ink);
+  word-break: break-all;
+}
+
+/* 绘图 */
+.plot-list { display: flex; flex-direction: column; gap: 0.35rem; }
+.plot-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-alt);
+}
+.plot-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+.plot-item code {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--color-ink);
+  flex: 1;
+  word-break: break-all;
+}
+.plot-del {
+  background: transparent;
+  border: none;
+  color: var(--color-danger);
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+}
+.plot-canvas-wrap {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-surface);
+}
+.plot-canvas {
+  display: block;
+  width: 100%;
+  height: 60vh;
+  min-height: 320px;
+  touch-action: none;
+}
+
+/* 历史 */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.history-item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: 0.55rem 0.75rem;
+  cursor: pointer;
+  transition: border-color .12s, background .12s;
+}
+.history-item:hover, .history-item:focus-visible {
+  border-color: var(--color-primary);
+  background: var(--color-surface-alt);
+  outline: none;
+}
+.history-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--color-muted);
+  margin-bottom: 0.2rem;
+}
+.history-tag {
+  background: var(--color-surface-alt);
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  color: var(--color-primary);
+}
+.history-expr {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  word-break: break-all;
+}
+.history-result {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--color-primary);
+  word-break: break-all;
+  margin-top: 0.15rem;
+}
+
+.text-danger { color: var(--color-danger) !important; }
+.text-muted { color: var(--color-muted); }
+.text-sm { font-size: 0.85rem; }
+.text-xs { font-size: 0.72rem; }
+.cursor-grabbing { cursor: grabbing !important; }
+.cursor-grab { cursor: grab; }
+code {
+  background: var(--color-surface-alt);
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+}

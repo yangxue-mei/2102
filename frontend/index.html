@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>科学计算器</title>
+  </head>
+  <body class="min-h-screen bg-bg text-ink font-body">
+    <div class="mx-auto max-w-6xl px-4 py-6">
+      <header class="flex items-center justify-between gap-3 mb-5">
+        <div>
+          <h1 class="text-xl font-semibold text-primary">科学计算器</h1>
+          <p class="text-sm text-muted">计算 · 方程 · 进制 · 绘图 · 历史</p>
+        </div>
+        <button id="theme-toggle" class="rounded border border-line px-3 py-1.5 text-sm hover:bg-surface-alt">主题</button>
+      </header>
+
+      <nav id="tab-bar" class="flex flex-wrap gap-1.5 mb-5 border-b border-line" aria-label="功能切换"></nav>
+
+      <section id="tab-panels" class="space-y-5">
+        <!-- 计算面板 -->
+        <div id="panel-calc" data-panel="calc" class="panel">
+          <div class="calc-screen">
+            <input id="calc-input" type="text" autocomplete="off" spellcheck="false"
+              class="calc-input" placeholder="输入表达式，如 sin(30)+2^3!" aria-label="计算表达式" />
+            <div id="calc-result" class="calc-result"></div>
+          </div>
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <span class="text-xs text-muted">三角函数默认 Deg，点击切换</span>
+            <button id="calc-angle" class="seg-btn active" type="button">Deg</button>
+          </div>
+          <div id="calc-pad" class="calc-pad"></div>
+        </div>
+
+        <!-- 方程面板 -->
+        <div id="panel-equation" data-panel="equation" class="panel hidden">
+          <p class="text-sm text-muted mb-2">支持一元一次 / 一元二次自由文本输入，自动项合并，输出实数根与复数根（a+bi）</p>
+          <div class="calc-screen">
+            <input id="eq-input" type="text" autocomplete="off" spellcheck="false"
+              class="calc-input" placeholder="如 2x+1=9 或 x^2-5x+6=0" aria-label="方程表达式" />
+            <button id="eq-solve" type="button" class="btn-primary rounded px-4 py-2 text-sm">求解</button>
+          </div>
+          <div id="eq-presets" class="flex flex-wrap gap-1.5 mt-3 mb-3"></div>
+          <div id="eq-out" class="eq-out"></div>
+        </div>
+
+        <!-- 进制面板 -->
+        <div id="panel-base" data-panel="base" class="panel hidden">
+          <div id="base-seg" class="flex flex-wrap gap-1.5 mb-3"></div>
+          <div class="calc-screen">
+            <input id="base-input" type="text" autocomplete="off" spellcheck="false"
+              class="calc-input" placeholder="输入数字" aria-label="数字输入" />
+            <div id="base-display" class="base-display"></div>
+          </div>
+          <div id="base-pad" class="calc-pad mt-3"></div>
+          <p class="text-xs text-muted mt-2">切换进制时，当前进制外的按键自动禁用并变灰</p>
+        </div>
+
+        <!-- 绘图面板 -->
+        <div id="panel-plot" data-panel="plot" class="panel hidden">
+          <p class="text-sm text-muted mb-2">输入 y=f(x)，按添加可叠加多条曲线（不同颜色）。鼠标滚轮缩放，拖拽画布平移。</p>
+          <div class="calc-screen flex gap-2 items-center">
+            <input id="plot-input" type="text" autocomplete="off" spellcheck="false"
+              class="calc-input" placeholder="如 sin(x) 或 x^2-2x-3" aria-label="函数表达式" />
+            <button id="plot-add" type="button" class="btn-primary rounded px-4 py-2 text-sm">添加</button>
+            <button id="plot-clear" type="button" class="btn-warn rounded px-4 py-2 text-sm">清空</button>
+          </div>
+          <ul id="plot-list" class="plot-list mt-3"></ul>
+          <div class="plot-canvas-wrap mt-2">
+            <canvas id="plot-canvas" class="plot-canvas cursor-grab" aria-label="函数图像"></canvas>
+          </div>
+        </div>
+
+        <!-- 历史面板 -->
+        <div id="panel-history" data-panel="history" class="panel hidden">
+          <div class="flex items-center justify-between mb-3">
+            <p class="text-sm text-muted">实时记录表达式与结果，点击条目回填到对应输入框</p>
+            <button id="history-clear" type="button" class="btn-danger rounded px-4 py-2 text-sm">一键清空</button>
+          </div>
+          <ul id="history-list" class="history-list"></ul>
+        </div>
+      </section>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
